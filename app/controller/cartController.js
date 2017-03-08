@@ -9,6 +9,5 @@ app.controller('cartController',function($scope, $routeParams, Store)
   $scope.removeFromCart = Store.removeFromCart;
   $scope.addAmount = function(cart_item){ console.log(cart_item); cart_item.amt++; }
   $scope.cart = [];
-  $scope.total = 0;
   $scope.params = $routeParams;
 });

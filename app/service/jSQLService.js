@@ -3,22 +3,30 @@ app.service('jSQL',function($document, $compile){
   const self = this;
 
   this.innerjoinArrays = function(arrOne, arrTwo, match_one, match_two, rename){
-    return arr = arrOne.filter(function(itemOne)
-    {
-      let matched = arrTwo.filter(function(itemTwo)
-      {
+    let arrLeft = [];
+    let arrRight = [];
+    let arrayOne = arrOne.filter(function(itemOne){
+      let matched = arrTwo.filter(function(itemTwo){
         return itemTwo[match_two] == itemOne[match_one];
       })[0]; // only first matched
       if(matched)
       {
-        if(!rename){ self.copyUniqueProperties(itemOne, matched); }
-        else if(rename == 'overwrite'){ self.overrideProperties(itemOne, matched); }
-        else if(rename == 'keep_right'){ angular.copy(matched, itemOne); }
-        else if(rename == 'keep_left'){ angular.copy(itemOne, matched); }
-        else{ self.attachNamedProperties(itemOne, matched, rename); }
+        arrLeft.push(Object.assign({},itemOne));
+        arrRight.push(Object.assign({},matched));
+              return true;
       }
-      return true;
     });
+    for (var i = 0; i < arrLeft.length; i++) {
+      let itemOne = arrLeft[i];
+      let matched = arrRight[i];
+      if(!rename){ self.copyUniqueProperties(itemOne, matched); }
+      else if(rename == 'overwrite'){ self.overrideProperties(itemOne, matched); }
+      else if(rename == 'keep_right'){ angular.copy(matched, itemOne); }
+      else if(rename == 'keep_left'){ angular.copy(itemOne, matched); }
+      else{ self.attachNamedProperties(itemOne, matched, rename); }
+    }
+    return arrLeft;
+
   };
 
   this.selectFromArray = function(name, equalsValue, inArray){
@@ -43,6 +51,7 @@ app.service('jSQL',function($document, $compile){
       }
       if(exist){ target_obj[property] = source_obj[property]; }
       else{ target_obj[property] = source_obj[property]; }
+
     }
   }
 
