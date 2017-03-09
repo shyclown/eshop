@@ -12,6 +12,7 @@ function addCSSFolder($folder){
 }
 
 addCSSFolder('asset');
+addCSSFolder('style');
 addScriptsFolder('app');
 addScriptsFolder('app/service');
 addScriptsFolder('app/directive');
