@@ -2,36 +2,87 @@ app.service('jSQL',function($document, $compile){
 
   const self = this;
 
-  this.innerjoinArrays = function(arrOne, arrTwo, match_one, match_two, rename){
+  this.innerjoinArrays = function(arrOne, arrTwo, match_one, match_two, action, rename){
     let arrLeft = [];
     let arrRight = [];
-    let arrayOne = arrOne.filter(function(itemOne){
+
+    arrOne.forEach( function(itemOne){
       let matched = arrTwo.filter(function(itemTwo){
         return itemTwo[match_two] == itemOne[match_one];
       })[0]; // only first matched
-      if(matched)
-      {
+      if(matched){
         arrLeft.push(Object.assign({},itemOne));
         arrRight.push(Object.assign({},matched));
-              return true;
       }
     });
-    for (var i = 0; i < arrLeft.length; i++) {
-      let itemOne = arrLeft[i];
-      let matched = arrRight[i];
-      if(!rename){ self.copyUniqueProperties(itemOne, matched); }
-      else if(rename == 'overwrite'){ self.overrideProperties(itemOne, matched); }
-      else if(rename == 'keep_right'){ angular.copy(matched, itemOne); }
-      else if(rename == 'keep_left'){ angular.copy(itemOne, matched); }
-      else{ self.attachNamedProperties(itemOne, matched, rename); }
+
+    let oReturn = [];
+    if(action == 'keep_left'){ return arrLeft; }
+    else if (action == 'keep_right'){ return arrRight; }
+    else{
+      targetLeft = true;
+      for (var i = 0; i < arrLeft.length; i++) {
+        let itemOne = arrLeft[i];
+        let matched = arrRight[i];
+        if(!action){ console.error('jSQL: action needs to be set'); }
+        else if(action == 'unique_left'){ self.copyUniqueProperties(itemOne, matched); }
+        else if(action == 'unique_right'){ self.copyUniqueProperties(matched, itemOne); targetLeft = false; }
+        else if(action == 'overwrite_left'){ self.overrideProperties(itemOne, matched); }
+        else if(action == 'overwrite_right'){ self.overrideProperties(matched, itemOne); targetLeft = false; }
+        else if(action == 'rename_right'){ self.attachNamedProperties(itemOne, matched, rename); }
+        else if(action == 'rename_left'){ self.attachNamedProperties(matched, itemOne, rename); targetLeft = false; }
+      }
+      oReturn = targetLeft ? arrLeft : arrRight; // operations are done on left array
     }
-    return arrLeft;
+    return oReturn;
 
   };
 
   this.selectFromArray = function(name, equalsValue, inArray){
-    return inArray.filter(function(obj){ return obj[name] == equalsValue});
+    return inArray.filter(function(obj){ return obj[name] === equalsValue });
   };
+
+  this.deleteFromArray = function(name, equalsValue, inArray){
+
+  }
+  this.updateInArray = function( newValues, name, equalsValue, inArray){
+    let rows = self.selectFromArray(name, equalsValue, inArray);
+    rows.forEach(function(row){
+      self.overrideProperties(inArray[row.id], newValues);
+    });
+  }
+
+  this.insertInArray = function( newRow, inArray){
+    // check properties
+    let error = false;
+    let properties = [];
+
+    for( let property in inArray[0]){ properties.push(property); }
+    if(self.allPropertiesExist(properties, newRow)){
+      // build object
+      let newObj = {};
+      properties.forEach(function(prop){
+        if(prop === 'id'){  newObj[prop] = inArray[inArray.length-1].id + 1; }
+        else{
+          if(!newRow[prop]){ newObj[prop] = false; }
+          else{ newObj[prop] = newRow[prop]; }
+        }
+      });
+      inArray.push(newObj);
+    }
+  }
+
+  this.allPropertiesExist = function(properties, newArray){
+    for( let property in newArray){
+      if( property === 'id'){ console.warn( 'Warning: jSQL insert ID will be ignored and overwriten by GeneratedID')}
+      if(!properties.find(function(item){ return item === property; })){
+        console.error('Error: jSQL insert to jDB Array: [Array.'+property+'] is not defined in target.');
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   this.copyUniqueProperties = function(target_obj, source_obj){
     for( let property in source_obj){

@@ -1,0 +1,24 @@
+<div class="blanket" ng-click="cancel()">
+  <div class="window" ng-click="$event.stopPropagation()">
+    <div class="top">
+     {{text.top.name}} - {{category.name}}
+      <button class="win close" ng-click="cancel()"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="content">
+      <input type="text" ng-model="category.name">
+      <input type="text" ng-model="category.description">
+    </div>
+    <div class="control">
+      <div ng-if="!new">
+        <button class="cancel" ng-click="cancel()">{{text.button.cancel}}</button>
+        <button class="delete" ng-click="delete(folder)">{{text.button.delete}}</button>
+        <button class="promote save" ng-click="save(folder)">{{text.button.save}}</button>
+      </div>
+      <div ng-if="new">
+        <button class="cancel" ng-click="cancel()">{{text.button.cancel}}</button>
+        <button class="promote save" ng-click="insert(folder)">{{text.button.insert}}</button>
+      </div>
+    </div>
+    <div class="Footer">Footer</div>
+  </div>
+</div><!-- blanket -->

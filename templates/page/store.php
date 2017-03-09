@@ -49,12 +49,14 @@
 <h1>SKILL SHOP</h1>
 <div>
   <div class="leftPanel shadow">
+        <button class="listCategories" ng-click='addCategory()'>New Category</button>
     <button class="listCategories" ng-repeat="obj in categories" ng-click="selectByCategory(obj)">
       <div>{{obj.name}}</div>
       <div class="categoryUsed">{{categoryUsed(obj)}}</div>
     </button>
+
   </div>
-  <button type="button" name="button" ng-click='prompted()'>prom</button>
+
   <div class="rightPanel shadow">
   <card-panel ng-repeat="item in selected" class="shop">
     <div class="flex">
