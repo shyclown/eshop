@@ -1,0 +1,12 @@
+<div class="blanket">
+    <div class="popup prompt shadow" ng-click="$event.stopPropagation()">
+      <div class="header"><h1>{{message}}</h1></div>
+      <div class="content">
+        {{description}}
+      </div>
+      <div class="control">
+        <button class="cancel" ng-click='cancel()' ng-if="cancelBtn">{{cancelBtn}}</button>
+        <button ng-click='accept()'>{{acceptBtn}}</button>
+      </div>
+  </div>
+</div>

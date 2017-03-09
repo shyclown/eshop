@@ -1,0 +1,74 @@
+.blanket{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+/* Window */
+.window{
+  background-color: #FFF;
+  margin: 0 auto;
+  max-width: 750px;
+  position: relative;
+}
+.window button.close{
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #F44336;
+  color: #FFF;
+  position: absolute;
+  top: 0px;
+  right:0px;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  text-align: center;
+}
+.window > .top{
+  height: 32px;
+  box-sizing: border-box;
+  line-height: 16px;
+  padding: 8px;
+  border-bottom: 1px solid #EAEAEA;
+  background-color: #FFF;
+}
+
+.window > .content {
+  padding: 0px;
+}
+.window > .content > section{
+  padding: 16px;
+}
+
+.window > .control {
+  height: 48px;
+  background-color: #EFEFEF;
+}
+
+.window > .content > header > h1.filename{
+  font-size: 24px;
+  font-weight: 100;
+}
+.window img{
+  max-width: 100%;
+}
+.window .p16 { padding: 16px; }
+.window .content > section.image{
+  background-color: #FFF;
+}
+.window .details {
+  padding: 16px;
+  background-color: #FFF;
+}
+.window button.spanlink{
+  border: none;
+  background-color: #EAEAEA;
+  padding: 4px 8px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 4px;
+  outline: none;
+}
