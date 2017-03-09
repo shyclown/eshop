@@ -45,7 +45,24 @@ app.service('jSQL',function($document, $compile){
   this.deleteFromArray = function(name, equalsValue, inArray){
 
   }
-  this.updateInArray = function( newValues, name, equalsValue, inArray){
+  this.updateInArray = function( updatedRow, name, equalsValue, inArray){
+    // find affected arrays
+    let foundArrays = self.selectFromArray(name, equalsValue, inArray);
+    console.log(affectedArrays);
+    let properties = [];
+    for (let property in inArray[0]){ properties.push(property); }
+    if(self.allPropertiesExist(properties, updatedRow)){
+
+      properties.forEach(function(prop){
+        if(prop!='id'){
+          console.warn('jSQL update: updates every row it finds')
+          foundArrays.forEach(function(row){
+            inArray[row[id]-1][prop] = updatedRow[prop];
+          });
+        }
+      });
+
+    }
     let rows = self.selectFromArray(name, equalsValue, inArray);
     rows.forEach(function(row){
       self.overrideProperties(inArray[row.id], newValues);
