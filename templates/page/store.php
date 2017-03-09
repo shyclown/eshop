@@ -54,7 +54,7 @@
       <div class="categoryUsed">{{categoryUsed(obj)}}</div>
     </button>
   </div>
-
+  <button type="button" name="button" ng-click='prompted()'>prom</button>
   <div class="rightPanel shadow">
   <card-panel ng-repeat="item in selected" class="shop">
     <div class="flex">
