@@ -28,7 +28,9 @@ app.directive('windowEditCategory',['ngShared', function(ngShared){
         scope.new = false;
         scope.category = Object.assign({}, oCategory.item);
       }
-      scope.insert = function(){ oCategory.callback(scope.category);  oCategory.close(); }
+      scope.insert = function(){ oCategory.callback(scope.category, 'insert');  oCategory.close(); }
+      scope.delete = function(){ oCategory.callback(scope.category, 'delete' );  oCategory.close(); }
+      scope.save = function(){ oCategory.callback(scope.category, 'save');  oCategory.close(); }
       scope.cancel = function(){
         oCategory.close();
       }

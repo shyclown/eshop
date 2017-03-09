@@ -49,12 +49,13 @@
 <h1>SKILL SHOP</h1>
 <div>
   <div class="leftPanel shadow">
-        <button class="listCategories" ng-click='addCategory()'>New Category</button>
-    <button class="listCategories" ng-repeat="obj in categories" ng-click="selectByCategory(obj)">
-      <div>{{obj.name}}</div>
-      <div class="categoryUsed">{{categoryUsed(obj)}}</div>
+    <button class="listCategories" ng-click='addCategory()'>New Category</button>
+    <button class="listCategories" ng-repeat="category in categories" ng-click="selectByCategory(category)">
+      <div>
+        {{category.name}}
+      </div>
+      <div class="categoryUsed">{{categoryUsed(category)}}</div>
     </button>
-
   </div>
 
   <div class="rightPanel shadow">
@@ -66,6 +67,7 @@
       </div>
       <div class="categoriesListed">
         <button class="category" ng-repeat="category in loadCategories(item)" ng-click="selectByCategory(category)">{{category.name}}</button>
+        <button class="category" ng-click="editItemCategory(item)"><i class="fa fa-plus"></i></button>
       </div>
     </div>
     <div>

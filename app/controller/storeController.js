@@ -6,9 +6,12 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
 
   $scope.selectByCategory = Store.selectByCategory;
 
-  const itemCategories = jSQL.innerjoinArrays(
-    $scope.item_category, $scope.categories,
-    'category_id', 'id', 'overwrite_left');
+  const itemCategoryMerge = function(){
+    return jSQL.innerjoinArrays(
+      $scope.item_category, $scope.categories,
+      'category_id', 'id', 'overwrite_left');
+  }
+  let itemCategories = itemCategoryMerge();
 
   $scope.addCategory = function(){
     new ngShared.directiveElement( 'window-edit-category', false ,
@@ -16,19 +19,33 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
     $scope);
   }
 
+  $scope.editCategory = function(category){
+
+    new ngShared.directiveElement( 'window-edit-category', category ,
+    function(editCategory, act){
+      if(act === 'save'){ jSQL.updateInArray(editCategory, 'id', editCategory.id, jDB.categories); }
+      if(act === 'delete'){ jSQL.deleteFromArray('id', editCategory.id, jDB.categories);}
+      itemCategories = itemCategoryMerge();
+    },
+    $scope);
+  }
+  $scope.editItemCategory = function(item){
+    console.log('click');
+    new ngShared.directiveElement('window-edit-item-category', item,
+    function(res){
+      console.log(res);
+    },
+    $scope);
+  }
 
 
   $scope.loadCategories = function(item){
-    return itemCategories.filter(
-    function(obj){
-     return obj.item_id == item.id;
-    });
+    return itemCategories.filter( function(obj){  return obj.item_id == item.id;});
   }
-
-  // how many times
-
+  // returns number
   $scope.categoryUsed = function(category){
-    return itemCategories.filter( function(obj){
-      return obj.category_id == category.id; }).length;
+    return jDB.item_category.filter(
+      function(obj){ return obj.category_id == category.id; }
+    ).length;
   }
 });

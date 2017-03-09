@@ -35,7 +35,6 @@ app.service('jSQL',function($document, $compile){
       oReturn = targetLeft ? arrLeft : arrRight; // operations are done on left array
     }
     return oReturn;
-
   };
 
   this.selectFromArray = function(name, equalsValue, inArray){
@@ -43,30 +42,28 @@ app.service('jSQL',function($document, $compile){
   };
 
   this.deleteFromArray = function(name, equalsValue, inArray){
-
+    let foundArrays = this.selectFromArray(name, equalsValue, inArray);
+    inArray.forEach(function(item, index, arr){
+      if( item[name] === equalsValue ){ arr.splice( index, 1 ); }
+    });
+    console.log('jSQL delete');
   }
+
   this.updateInArray = function( updatedRow, name, equalsValue, inArray){
     // find affected arrays
     let foundArrays = self.selectFromArray(name, equalsValue, inArray);
-    console.log(affectedArrays);
     let properties = [];
     for (let property in inArray[0]){ properties.push(property); }
     if(self.allPropertiesExist(properties, updatedRow)){
-
       properties.forEach(function(prop){
         if(prop!='id'){
-          console.warn('jSQL update: updates every row it finds')
           foundArrays.forEach(function(row){
-            inArray[row[id]-1][prop] = updatedRow[prop];
+            inArray[row.id-1][prop] = updatedRow[prop];
           });
         }
       });
-
+      console.log('jSQL updated: ', foundArrays );
     }
-    let rows = self.selectFromArray(name, equalsValue, inArray);
-    rows.forEach(function(row){
-      self.overrideProperties(inArray[row.id], newValues);
-    });
   }
 
   this.insertInArray = function( newRow, inArray){
@@ -91,9 +88,9 @@ app.service('jSQL',function($document, $compile){
 
   this.allPropertiesExist = function(properties, newArray){
     for( let property in newArray){
-      if( property === 'id'){ console.warn( 'Warning: jSQL insert ID will be ignored and overwriten by GeneratedID')}
+      if( property === 'id'){ console.warn( 'Warning: jSQL provided ID will be ignored and overwriten by GeneratedID')}
       if(!properties.find(function(item){ return item === property; })){
-        console.error('Error: jSQL insert to jDB Array: [Array.'+property+'] is not defined in target.');
+        console.error('Error: jSQL to jDB Array: [Array.'+property+'] is not defined in target.');
         return false;
       }
     }
@@ -129,6 +126,4 @@ app.service('jSQL',function($document, $compile){
       target_obj[newProperty] = source_obj[property];
     }
   }
-
-
 });
