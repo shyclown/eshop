@@ -1,4 +1,4 @@
-app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB)
+app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB, ngShared)
 {
   console.log('store');
 
@@ -11,6 +11,16 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
   const itemCategories = jSQL.innerjoinArrays(
     $scope.item_category, $scope.categories,
     'category_id', 'id', 'overwrite');
+
+  const test = function(){alert('propmt was displayed');}
+  $scope.prompted = function(){
+    new ngShared.directiveElement(
+      'prompt',
+      { message: 'Opened prompt', description:'', cancelBtn: 'cancel', acceptBtn: 'accept' },
+      test,
+      $scope
+    );
+  }
 
 
   $scope.loadCategories = function(item){
