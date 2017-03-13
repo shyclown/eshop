@@ -1,19 +1,37 @@
 app.service('jDB',function(){
+  this.pages = [
+    { id: 1, name: 'PAGE'}
+  ]
   this.items = [
-    { id: 1, name: 'PHP', description: 'item description', price:15},
-    { id: 2, name: 'JAVASCRIPT', description: 'item description', price:15},
-    { id: 3, name: 'CSS', description: 'item description', price:8},
-    { id: 4, name: 'HTML', description: 'item description', price:8},
-    { id: 5, name: 'ANGULARJS', description: 'item description', price:12},
-    { id: 6, name: 'AUTOCAD', description: 'item description', price:20},
-    { id: 7, name: 'BLENDER', description: 'item description', price:15},
-    { id: 8, name: 'SKETCHUP', description: 'item description', price:15},
-    { id: 9, name: 'PHOTOSHOP', description: 'item description', price:15},
-    { id: 10, name: 'INDESIGN', description: 'item description', price:15},
-    { id: 11, name: 'SUBSTANCE PAINTER', description: 'item description', price:15},
-    { id: 12, name: 'SUBSTANCE DESIGNER', description: 'item description', price:15},
-    { id: 13, name: 'NODEJS', description: 'item description', price:15}
+    { id: 1, name: 'PHP', description: 'item description'},
+    { id: 2, name: 'JAVASCRIPT', description: 'item description'},
+    { id: 3, name: 'CSS', description: 'item description'},
+    { id: 4, name: 'HTML', description: 'item description'},
+    { id: 5, name: 'ANGULARJS', description: 'item description'},
+    { id: 6, name: 'AUTOCAD', description: 'item description'},
+    { id: 7, name: 'BLENDER', description: 'item description'},
+    { id: 8, name: 'SKETCHUP', description: 'item description'},
+    { id: 9, name: 'PHOTOSHOP', description: 'item description'},
+    { id: 10, name: 'INDESIGN', description: 'item description'},
+    { id: 11, name: 'SUBSTANCE PAINTER', description: 'item description'},
+    { id: 12, name: 'SUBSTANCE DESIGNER', description: 'item description'},
+    { id: 13, name: 'NODEJS', description: 'item description'}
 
+  ];
+  this.item_price = [
+    { id: 1, item_id: 1, price: 15 },
+    { id: 2, item_id: 1, price: 15 },
+    { id: 3, item_id: 1, price: 8 },
+    { id: 4, item_id: 1, price: 8 },
+    { id: 5, item_id: 1, price: 12 },
+    { id: 6, item_id: 1, price: 20 },
+    { id: 7, item_id: 1, price: 15 },
+    { id: 8, item_id: 1, price: 15 },
+    { id: 9, item_id: 1, price: 15 },
+    { id: 10, item_id: 1, price: 15 },
+    { id: 11, item_id: 1, price: 15 },
+    { id: 12, item_id: 1, price: 15 },
+    { id: 13, item_id: 1, price: 15 }
   ];
   this.categories = [
     { id: 1, name: 'Backend', description: 'Description' },

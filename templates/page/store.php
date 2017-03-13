@@ -71,6 +71,7 @@
       </div>
     </div>
     <div>
+      {{ item.price }}
     <button ng-click="readMore(item)"><i class="fa fa-external-link"></i> More</button>
     <button ng-click="addToCart(item)"><i class="fa fa-plus-square"></i> BUY</button>
     </div>

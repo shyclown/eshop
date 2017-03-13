@@ -8,48 +8,35 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
   const itemCategoryMerge = function(){
     return jSQL.innerjoinArrays(
       $scope.item_category, $scope.categories,
-      'category_id', 'id', 'overwrite_left');
+      'category_id', 'id', 'overwrite_left'
+    );
   }
+
   let itemCategories = itemCategoryMerge();
 
   $scope.addCategory = function(){
     new ngShared.directiveElement( 'window-edit-category', false ,
-    function(newCategory){ jSQL.insertInArray(newCategory, jDB.categories);},
+    function(newCategory){
+      jSQL.insertInArray(newCategory, jDB.categories);},
     $scope);
   }
-
   $scope.loadCategories = function(item){
-    return itemCategories.filter(
-    function(obj){
-     return obj.item_id == item.id;
-    });
+    return itemCategories.filter( function(obj){ return obj.item_id == item.id; });
   }
-
   $scope.editCategory = function(category){
-
-    new ngShared.directiveElement( 'window-edit-category', category ,
-    function(editCategory, act){
-      if(act === 'save'){ jSQL.updateInArray(editCategory, 'id', editCategory.id, jDB.categories); }
-      if(act === 'delete'){ jSQL.deleteFromArray('id', editCategory.id, jDB.categories);}
-      itemCategories = itemCategoryMerge();
-    },
-    $scope);
+    new ngShared.directiveElement(
+      'window-edit-category', category ,
+      function(editCategory, act){
+        if(act === 'save'){ jSQL.updateInArray(editCategory, 'id', editCategory.id, jDB.categories); }
+        if(act === 'delete'){ jSQL.deleteFromArray('id', editCategory.id, jDB.categories); }
+        itemCategories = itemCategoryMerge();
+      },
+      $scope);
   }
   $scope.editItemCategory = function(item){
-    console.log('click');
     new ngShared.directiveElement('window-edit-item-category', item,
-    function(res){
-      console.log(itemCategories.length);
-      itemCategories = itemCategoryMerge();
-      console.log(itemCategories.length);
-    },
+    function(res){ itemCategories = itemCategoryMerge(); },
     $scope);
-  }
-
-
-  $scope.loadCategories = function(item){
-    return itemCategories.filter( function(obj){
-      return obj.item_id == item.id;});
   }
   // returns number
   $scope.categoryUsed = function(category){
