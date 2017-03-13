@@ -14,13 +14,10 @@ app.service('Store',function($document, $compile, jDB, jSQL){
   }
 
   this.selectByCategory = function(category){
-    console.log(category);
-    // make select and search by without joining
     self.category = category;
     self.selected = jSQL.innerjoinArrays(
       jSQL.selectFromArray('category_id', category.id, jDB.item_category,'=='),
       jDB.items,'item_id','id','keep_right');
-      console.log(self.selected);
   }
 
   this.addToCart = function(item){
