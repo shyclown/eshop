@@ -2,6 +2,59 @@ app.service('jSQL',function($document, $compile){
 
   const self = this;
 
+  this.compareProperties = function(arrayName, arrayMatch, opString){
+    op = opString.split(" "); // every %2 is pairing
+
+    let str = '';
+    arrayName.forEach(function(name, index){
+      let sec = index*2;
+      str += arrayName[index]+' '+op[sec]+' '+arrayMatch[index];
+      if(index+1 != arrayName.length){ str += ' '+op[sec+1]+' '; }
+    });
+    //console.log('compare: ', str);
+
+    let operator = {
+      '>': function(a, b){ return a > b },
+      '>=': function(a, b){ return a >= b },
+      '<=': function(a, b){ return a <= b },
+      '<': function(a, b){ return a < b },
+      '!=': function(a, b){ return a != b },
+      '&&': function(a, b){ return a && b },
+      '||': function(a, b){ return a || b },
+      '==': function(a, b){ return a == b }
+    }
+
+    let comparePart = [];
+    arrayName.forEach(function(name, index){
+      comparePart.push(operator[op[index*2]](arrayName[index],  arrayMatch[index]));
+    });
+
+    str = '';
+    comparePart.forEach(function(name, index){
+      let sec = index*2;
+      str += comparePart[index];
+      if(index+1 != comparePart.length){ str += ' '+op[sec+1]+' '; }
+    });
+    //console.log('compare: ', str);
+
+    if(comparePart.length > 1){
+      let i = 0; // operator of group
+      let oFinal = false;
+      while(i*2 < op.length){
+        let even = i * 2;
+        let compare = operator[op[even + 1]];
+        if(i == 0){ oFinal = compare(comparePart[0], comparePart[1]); }
+        else{
+          if(op[even+1]){ oFinal = compare(oFinal, comparePart[i + 1]); }
+        }
+        i++;
+      }
+    }
+    else{ oFinal = comparePart[0]; }
+    //console.log('compared final: ',oFinal);
+    return oFinal;
+  }
+
   this.innerjoinArrays = function(arrOne, arrTwo, match_one, match_two, action, rename){
     let arrLeft = [];
     let arrRight = [];
@@ -38,8 +91,21 @@ app.service('jSQL',function($document, $compile){
 
   };
 
-  this.selectFromArray = function(name, equalsValue, inArray){
-    return inArray.filter(function(obj){ return obj[name] === equalsValue });
+  this.selectFromArray = function(name, arrayMatch, inArray, matchOperator){
+    return inArray.filter(function(obj){
+      if(matchOperator){
+        if(!Array.isArray(name)){ name = [ name ];}
+        if(!Array.isArray(arrayMatch)){ arrayMatch = [ arrayMatch ];}
+        let arrayName = [];
+        name.forEach( function(val){ arrayName.push(obj[val]); } );
+        return self.compareProperties( arrayName, arrayMatch, matchOperator);
+      }
+      else{
+        console.error('jSQL matchOperator is not set');
+        return obj[name] === equalsValue
+      }
+
+    });
   };
 
   this.deleteFromArray = function(name, equalsValue, inArray){

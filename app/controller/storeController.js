@@ -16,7 +16,7 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
     $scope);
   }
 
-
+  
 
   $scope.loadCategories = function(item){
     return itemCategories.filter(
