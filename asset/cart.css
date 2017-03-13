@@ -3,7 +3,7 @@ h1{
 }
 
 
-div.price{
+.cart div.price{
   box-sizing: border-box;
   color: #666;
   padding: 16px;

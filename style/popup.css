@@ -13,6 +13,7 @@
   margin: 0 auto;
   max-width: 750px;
   position: relative;
+   margin-top: 50px;
 }
 .window button.close{
   font-size: 16px;
@@ -37,15 +38,94 @@
 }
 
 .window > .content {
-  padding: 0px;
+  padding: 0px 16px;
 }
+
 .window > .content > section{
   padding: 16px;
 }
-
+/* CONTROL */
 .window > .control {
-  height: 48px;
-  background-color: #EFEFEF;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+  background-color: #FFF;
+  padding: 8px;
+}
+.window > .control > button{
+  padding: 8px 16px;
+  margin-left: 8px;
+  border: none;
+  outline: none;
+  background-color: #7986CB;
+  border-radius: 4px;
+  color: #FFF;
+}
+#editItemCategory{ }
+#editItemCategory input.name{
+  font-family: 'Source Sans Pro';
+  box-sizing: border-box;
+  background-color: #F9FBE7;
+  margin-top: 16px;
+  border: none;
+  outline: none;
+  width: 100%;
+  display: block;
+  padding: 8px 8px;
+  font-size: 32px;
+  font-weight: 100;
+}
+#editItemCategory textarea.description{
+  font-family: 'Source Sans Pro';
+  box-sizing: border-box;
+  background-color: #F9FBE7;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border: none;
+  outline: none;
+  width: 100%;
+  display: block;
+  padding: 8px 8px;
+  font-size: 16px;
+  font-weight: 300;
+  resize: vertical;
+}
+#editItemCategory .categoriesListed{
+  margin: 0px;
+  padding: 0px 0px;
+}
+#editItemCategory .categoriesListed .pickTag{
+  margin-top: 16px;
+  background-color: #E8EAF6;
+  padding: 8px;
+  border-radius: 8px;
+  color: #7986CB;
+
+}
+#editItemCategory .categoriesListed .pickTag i{
+  font-weight: 100;
+  font-size: 14px;
+}
+#editItemCategory .categoriesListed .pickTag > button{
+  background-color: #C5CAE9;
+  color: #283593;
+}
+#editItemCategory .categoriesListed .pickTag > button:hover{
+  background-color: #7986CB;
+  color: #FFF;
+}
+#editItemCategory .categoriesListed .typeTag{
+  display: inline-block;
+  box-sizing: border-box;
+  height: 24px;
+  line-height: 12px;
+  font-size: 12px;
+  border: none;
+  outline: none;
+  background-color: #E8EAF6;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin: 4px;
 }
 
 .window > .content > header > h1.filename{

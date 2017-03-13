@@ -2,6 +2,7 @@ app.directive('windowEditCategory',['ngShared', function(ngShared){
   return{
     restrict: 'E',
     transclude: true,
+    scope:{},
     templateUrl:'app/template/window_editCategory.html',
     link: function(scope, element, attrs){
 

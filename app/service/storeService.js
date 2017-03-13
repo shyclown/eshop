@@ -18,6 +18,11 @@ app.service('Store',function($document, $compile, jDB, jSQL){
     self.selected = jSQL.innerjoinArrays(
       jSQL.selectFromArray('category_id', '==', category.id, jDB.item_category),
       jDB.items,'item_id','id','keep_right');
+    self.selected.forEach(function(item){
+      item.prices = jSQL.selectFromArray('item_id', '==', item.id, jDB.item_price);
+      if(item.prices.length){ item.price = item.prices[item.prices.length - 1].price; }
+      else{ item.price = 0; }
+    });
   }
 
   this.addToCart = function(item){

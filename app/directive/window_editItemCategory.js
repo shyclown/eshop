@@ -6,10 +6,12 @@ function(ngShared, jSQL, jDB){
     templateUrl:'app/template/window_editItemCategory.html',
     link: function(scope, element, attrs){
 
-      const oItem = ngShared.openElement[attrs.editObj];
-      scope.item = oItem.item;
+      const oItemWindow = ngShared.openElement[attrs.editObj];
+      const oItem = oItemWindow.item;
+      scope.item = Object.assign({}, oItem);
+
       let itemCategories = jSQL.selectFromArray(
-        'item_id', '==', oItem.item.id,
+        'item_id', '==', oItem.id,
         jDB.item_category
       );
 
@@ -25,44 +27,29 @@ function(ngShared, jSQL, jDB){
           }
         });
         if(!used){ scope.unusedCategories.push(category); }
+
       });
 
       function remove(arr, item){
         let index = arr.indexOf(item);
         if(index != -1){ arr.splice( index, 1 );}
       }
-
       scope.addToUsed = function(category) {
         scope.usedCategories.push(category);
-        jSQL.insertInArray(
-          {category_id: category.id, item_id: oItem.item.id},
-          jDB.item_category
-        );
         remove(scope.unusedCategories, category);
       }
-
       scope.removeFromUsed = function(category) {
         scope.unusedCategories.push(category);
-        console.log(category.name +': ' + category.id);
-
-        jSQL.deleteFromArray(
-          ['item_id', 'category_id'],
-          '== && ==',
-          [ oItem.item.id, category.id ],
-          jDB.item_category
-        );
-
         remove(scope.usedCategories, category);
       }
-
+      /* Pick Panel */
       scope.typedCategory = '';
-
       scope.pickPanel = function(){
         if(scope.typedCategory != ''){
           let rx = new RegExp(scope.typedCategory,'i');
-          return scope.unusedCategories.filter(function(category){
-          return rx.test(category.name);
-          });
+          return scope.unusedCategories.filter(
+            function(category){ return rx.test(category.name);}
+          );
         }
         else return scope.unusedCategories;
       }
@@ -77,9 +64,48 @@ function(ngShared, jSQL, jDB){
         }
       };
 
+      scope.save = function(item){
+        console.log('saved');
+        if(oItem.name != item.name || oItem.description != item.description){
+            jSQL.updateInArray(
+              { name: item.name, description: item.description },
+              'id', '==', scope.item.id, jDB.items
+            );
+        }
+
+        let oldCategories = jSQL.selectFromArray('item_id','==', oItem.id, jDB.item_category);
+        oldCategories.forEach(function(old, index){
+          let removeCategory = true;
+          scope.usedCategories.forEach(function(used){
+            if(old.category_id == used.id){
+              removeCategory = false,
+              remove(scope.usedCategories, used);
+            }
+          });
+          if(removeCategory){
+            jSQL.deleteFromArray(
+              ['category_id','item_id'],
+              '== && ==',
+              [old.category_id, item.id],
+              jDB.item_category
+            );
+          }
+        });
+        if(scope.usedCategories.length){
+          scope.usedCategories.forEach(function(used){
+            jSQL.insertInArray({
+              item_id: item.id,
+              category_id: used.id
+            },
+              jDB.item_category);
+          });
+        }
+        oItemWindow.close();
+        oItemWindow.callback();
+      }
       scope.cancel = function(){
-        oItem.close();
-        oItem.callback();
+        oItemWindow.close();
+        oItemWindow.callback();
       }
     }
   }

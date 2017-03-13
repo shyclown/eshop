@@ -128,9 +128,9 @@ app.service('jSQL',function($document, $compile){
     console.log('jSQL delete');
   }
 
-  this.updateInArray = function( updatedRow, name, equalsValue, inArray){
+  this.updateInArray = function( updatedRow, name, matchOperator, equalsValue, inArray){
     // find affected arrays
-    let foundArrays = self.selectFromArray(name, equalsValue, inArray);
+    let foundArrays = self.selectFromArray(name, matchOperator, equalsValue, inArray);
     let properties = [];
     for (let property in inArray[0]){ properties.push(property); }
     if(self.allPropertiesExist(properties, updatedRow)){
@@ -162,6 +162,7 @@ app.service('jSQL',function($document, $compile){
         }
       });
       inArray.push(newObj);
+      console.log('jSQL inserted: ', newRow );
     }
   }
 

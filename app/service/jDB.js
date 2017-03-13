@@ -20,12 +20,12 @@ app.service('jDB',function(){
   ];
   this.item_price = [
     { id: 1, item_id: 1, price: 15 },
-    { id: 2, item_id: 1, price: 15 },
-    { id: 3, item_id: 1, price: 8 },
-    { id: 4, item_id: 1, price: 8 },
-    { id: 5, item_id: 1, price: 12 },
-    { id: 6, item_id: 1, price: 20 },
-    { id: 7, item_id: 1, price: 15 },
+    { id: 2, item_id: 2, price: 15 },
+    { id: 3, item_id: 3, price: 8 },
+    { id: 4, item_id: 4, price: 8 },
+    { id: 5, item_id: 5, price: 12 },
+    { id: 6, item_id: 6, price: 20 },
+    { id: 7, item_id: 7, price: 15 },
     { id: 8, item_id: 1, price: 15 },
     { id: 9, item_id: 1, price: 15 },
     { id: 10, item_id: 1, price: 15 },

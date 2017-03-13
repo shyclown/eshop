@@ -1,4 +1,3 @@
-
 <style>
 .leftPanel{
   width: 250px;
@@ -45,7 +44,37 @@
 .categoriesListed{
   margin-left: 16px;
 }
+div.store.price{
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  font-weight: bolder;
+  font-size: 20px;
+  background-color: #F9FBE7;
+  color: #000;
+}
+div.store.price > div > i{
+  font-size: 16px;
+  font-weight: 50;
+  color: #000;
+}
+button.buy{
+  padding: 8px;
+  border: none;
+  outline: none;
+  background-color: #9CCC65;
+}
+button.buy:hover{
+  background-color: #AED581;
+}
+.rightPanel > div.categoryName{
+  padding: 16px;
+  background-color: #7986CB;
+  border-bottom: #E0E0E0 5px solid;
+  color: #FFF;
+}
 </style>
+
 <h1>SKILL SHOP</h1>
 <div>
   <div class="leftPanel shadow">
@@ -57,8 +86,8 @@
       <div class="categoryUsed">{{categoryUsed(category)}}</div>
     </button>
   </div>
-
   <div class="rightPanel shadow">
+    <div class="categoryName">  {{category.name}}</div>
   <card-panel ng-repeat="item in selected" class="shop">
     <div class="flex">
       <div>
@@ -67,13 +96,19 @@
       </div>
       <div class="categoriesListed">
         <button class="category" ng-repeat="category in loadCategories(item)" ng-click="selectByCategory(category)">{{category.name}}</button>
-        <button class="category" ng-click="editItemCategory(item)"><i class="fa fa-plus"></i></button>
+        <button class="category" ng-click="editItemCategory(item)"><i class="fa fa-pencil"></i></button>
       </div>
     </div>
     <div>
+    <div class="store price">
+      <div>
       {{ item.price }}
+      <i class="fa fa-eur"></i>
+      </div>
+      <button> <i class="fa fa-edit"></i></button>
+    </div>
     <button ng-click="readMore(item)"><i class="fa fa-external-link"></i> More</button>
-    <button ng-click="addToCart(item)"><i class="fa fa-plus-square"></i> BUY</button>
+    <button class="buy" ng-click="addToCart(item)"><i class="fa fa-plus-square"></i> BUY</button>
     </div>
   </card-panel>
   </div>

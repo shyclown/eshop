@@ -35,7 +35,10 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
   }
   $scope.editItemCategory = function(item){
     new ngShared.directiveElement('window-edit-item-category', item,
-    function(res){ itemCategories = itemCategoryMerge(); },
+    function(res){
+      $scope.selectByCategory($scope.category);
+      itemCategories = itemCategoryMerge();
+    },
     $scope);
   }
   // returns number

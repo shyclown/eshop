@@ -1,23 +1,25 @@
 <div class="blanket" ng-click="cancel()">
-  <div class="window" ng-click="$event.stopPropagation()">
+  <div id="editItemCategory"class="window" ng-click="$event.stopPropagation()">
     <div class="top">
      {{text.top.name}} - {{category.name}}
       <button class="win close" ng-click="cancel()"><i class="fa fa-times"></i></button>
     </div>
     <div class="content">
-      <h1>{{item.name}}</h1>
-      <p>{{item.description}}</p>
+      <input class="name" ng-model="item.name"/>
+      <textarea class="description" ng-model="item.description">{{item.description}}</textarea>
       <div class="categoriesListed">
         <button class="category" ng-repeat="category in usedCategories" ng-click="removeFromUsed(category)">{{category.name}}</button>
-        <input ng-model='typedCategory'>  <button class="category" ng-click=""><i class="fa fa-plus"></i></button>
-        <div>Pick From</div>
+        <input class="typeTag" ng-model='typedCategory'>
+        <button class="category" ng-click=""><i class="fa fa-plus"></i>
+        </button>
+        <div class="pickTag"><i class="fa fa-plus"></i> Often used tags:
         <button class="category" ng-repeat="category in pickPanel() track by $index" ng-click="addToUsed(category)">{{category.name}}</button>
-
+        </div>
       </div>
     </div>
     <div class="control">
       <button class="cancel" ng-click="cancel()">{{text.button.cancel}}</button>
-      <button class="promote save" ng-click="save(folder)">{{text.button.save}}</button>
+      <button class="promote save" ng-click="save(item)">{{text.button.save}}</button>
     </div>
     <div class="Footer">Footer</div>
   </div>

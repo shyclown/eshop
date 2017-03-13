@@ -12,7 +12,7 @@ app.controller('mainController',function($scope, Store)
   true);
   $scope.$watch(
     function(){ return Store.category; },
-    function(){ $scope.category = Store.category; },
+    function(){ $scope.category = Store.category; console.log('changed category');},
   true);
   $scope.$watch(
     function(){ return Store.selected; },
