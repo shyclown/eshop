@@ -19,15 +19,12 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
     $scope);
   }
 
-<<<<<<< HEAD
-  
-
   $scope.loadCategories = function(item){
     return itemCategories.filter(
     function(obj){
      return obj.item_id == item.id;
     });
-=======
+  }
   $scope.editCategory = function(category){
 
     new ngShared.directiveElement( 'window-edit-category', category ,
@@ -45,7 +42,6 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
       console.log(res);
     },
     $scope);
->>>>>>> origin/master
   }
 
 
