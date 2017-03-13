@@ -37,15 +37,20 @@ app.service('jSQL',function($document, $compile){
     });
     //console.log('compare: ', str);
 
+    let i = 0; // operator of group
+    let oFinal = false;
+
     if(comparePart.length > 1){
-      let i = 0; // operator of group
-      let oFinal = false;
       while(i*2 < op.length){
         let even = i * 2;
         let compare = operator[op[even + 1]];
-        if(i == 0){ oFinal = compare(comparePart[0], comparePart[1]); }
+        if(i == 0){
+          oFinal = compare(comparePart[0], comparePart[1]);
+        }
         else{
-          if(op[even+1]){ oFinal = compare(oFinal, comparePart[i + 1]); }
+          if(op[even+1]){
+            oFinal = compare(oFinal, comparePart[i + 1]);
+          }
         }
         i++;
       }
@@ -90,7 +95,7 @@ app.service('jSQL',function($document, $compile){
     return oReturn;
   };
 
-  this.selectFromArray = function(name, arrayMatch, inArray, matchOperator){
+  this.selectFromArray = function(name, matchOperator, arrayMatch, inArray){
     return inArray.filter(function(obj){
       if(matchOperator){
         if(!Array.isArray(name)){ name = [ name ];}
@@ -107,10 +112,18 @@ app.service('jSQL',function($document, $compile){
     });
   };
 
-  this.deleteFromArray = function(name, equalsValue, inArray){
-    let foundArrays = this.selectFromArray(name, equalsValue, inArray);
-    inArray.forEach(function(item, index, arr){
-      if( item[name] === equalsValue ){ arr.splice( index, 1 ); }
+  this.deleteFromArray = function(name, matchOperator, arrayMatch, inArray){
+    inArray.forEach(function(obj, index, arr){
+      if(matchOperator){
+        if(!Array.isArray(name)){ name = [ name ];}
+        if(!Array.isArray(arrayMatch)){ arrayMatch = [ arrayMatch ];}
+        let arrayName = [];
+        name.forEach( function(val){ arrayName.push(obj[val]); } );
+        if(self.compareProperties( arrayName, arrayMatch, matchOperator)){
+          console.log('removed: ', obj);
+          arr.splice( index, 1 );
+        }
+      }
     });
     console.log('jSQL delete');
   }

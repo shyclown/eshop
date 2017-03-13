@@ -3,7 +3,6 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
   $scope.addToCart = Store.addToCart;
   $scope.categories = jDB.categories;
   $scope.item_category = jDB.item_category;
-
   $scope.selectByCategory = Store.selectByCategory;
 
   const itemCategoryMerge = function(){
@@ -25,6 +24,7 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
      return obj.item_id == item.id;
     });
   }
+
   $scope.editCategory = function(category){
 
     new ngShared.directiveElement( 'window-edit-category', category ,
@@ -39,14 +39,17 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
     console.log('click');
     new ngShared.directiveElement('window-edit-item-category', item,
     function(res){
-      console.log(res);
+      console.log(itemCategories.length);
+      itemCategories = itemCategoryMerge();
+      console.log(itemCategories.length);
     },
     $scope);
   }
 
 
   $scope.loadCategories = function(item){
-    return itemCategories.filter( function(obj){  return obj.item_id == item.id;});
+    return itemCategories.filter( function(obj){
+      return obj.item_id == item.id;});
   }
   // returns number
   $scope.categoryUsed = function(category){

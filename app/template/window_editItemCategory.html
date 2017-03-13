@@ -11,7 +11,7 @@
         <button class="category" ng-repeat="category in usedCategories" ng-click="removeFromUsed(category)">{{category.name}}</button>
         <input ng-model='typedCategory'>  <button class="category" ng-click=""><i class="fa fa-plus"></i></button>
         <div>Pick From</div>
-        <button class="category" ng-repeat="category in pickPanel()" ng-click="addToUsed(category)">{{category.name}}</button>
+        <button class="category" ng-repeat="category in pickPanel() track by $index" ng-click="addToUsed(category)">{{category.name}}</button>
 
       </div>
     </div>

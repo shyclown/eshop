@@ -8,18 +8,23 @@ function(ngShared, jSQL, jDB){
 
       const oItem = ngShared.openElement[attrs.editObj];
       scope.item = oItem.item;
-      let itemCategories = jSQL.selectFromArray('item_id', oItem.item.id, jDB.item_category);
+      let itemCategories = jSQL.selectFromArray(
+        'item_id', '==', oItem.item.id,
+        jDB.item_category
+      );
 
       scope.usedCategories = [];
       scope.unusedCategories = [];
 
       jDB.categories.forEach(function(category){
-        used = false;
+        let used = false;
         itemCategories.forEach(function(ic){
-          used = ic.category_id == category.id;
+          if(ic.category_id == category.id){
+            used = true;
+            scope.usedCategories.push(category);
+          }
         });
-        if(used){ scope.usedCategories.push(category); }
-        else{ scope.unusedCategories.push(category); }
+        if(!used){ scope.unusedCategories.push(category); }
       });
 
       function remove(arr, item){
@@ -31,15 +36,22 @@ function(ngShared, jSQL, jDB){
         scope.usedCategories.push(category);
         jSQL.insertInArray(
           {category_id: category.id, item_id: oItem.item.id},
-          jDB.item_category);
+          jDB.item_category
+        );
         remove(scope.unusedCategories, category);
       }
 
       scope.removeFromUsed = function(category) {
         scope.unusedCategories.push(category);
-        jSQL.deleteFromArray('item_id', oItem.item.id,
-        jSQL.selectFromArray('category_id', category.id,
-        jDB.item_category));
+        console.log(category.name +': ' + category.id);
+
+        jSQL.deleteFromArray(
+          ['item_id', 'category_id'],
+          '== && ==',
+          [ oItem.item.id, category.id ],
+          jDB.item_category
+        );
+
         remove(scope.usedCategories, category);
       }
 
@@ -55,8 +67,6 @@ function(ngShared, jSQL, jDB){
         else return scope.unusedCategories;
       }
 
-
-
       scope.text = {
         top: { name: 'Category' },
         button: {
@@ -69,6 +79,7 @@ function(ngShared, jSQL, jDB){
 
       scope.cancel = function(){
         oItem.close();
+        oItem.callback();
       }
     }
   }
