@@ -64,48 +64,55 @@ function(ngShared, jSQL, jDB){
         }
       };
 
+
       scope.save = function(item){
         console.log('saved');
-        if(oItem.name != item.name || oItem.description != item.description){
-            jSQL.updateInArray(
-              { name: item.name, description: item.description },
-              'id', '==', scope.item.id, jDB.items
-            );
-        }
+        if(changedText(item)){ updateText(item); }
 
         let oldCategories = jSQL.selectFromArray('item_id','==', oItem.id, jDB.item_category);
-        oldCategories.forEach(function(old, index){
+        oldCategories.forEach(function(old, index)
+        {
           let removeCategory = true;
           scope.usedCategories.forEach(function(used){
-            if(old.category_id == used.id){
-              removeCategory = false,
+            if(old.category_id == used.id){ removeCategory = false,
               remove(scope.usedCategories, used);
-            }
-          });
-          if(removeCategory){
-            jSQL.deleteFromArray(
-              ['category_id','item_id'],
-              '== && ==',
-              [old.category_id, item.id],
-              jDB.item_category
-            );
-          }
+          }});
+          if(removeCategory){ deleteTag(old.category_id, item.id) }
         });
-        if(scope.usedCategories.length){
-          scope.usedCategories.forEach(function(used){
-            jSQL.insertInArray({
-              item_id: item.id,
-              category_id: used.id
-            },
-              jDB.item_category);
-          });
-        }
+        updateTags(scope.usedCategories, item)
         oItemWindow.close();
         oItemWindow.callback();
       }
+
       scope.cancel = function(){
         oItemWindow.close();
         oItemWindow.callback();
+      }
+      /* Functions */
+      const changedText = function(item){ return oItem.name != item.name || oItem.description != item.description; }
+      const changedTags = function(){}
+
+      const updateText = function(item){
+        jSQL.updateInArray({ name: item.name, description: item.description },
+          'id', '==', item.id,
+          jDB.items
+        );
+      }
+      const deleteTag = function(tagID, itemID){
+        jSQL.deleteFromArray(
+          ['category_id','item_id'], '== && ==', [tagID, itemID],
+          jDB.item_category
+        );
+      }
+      const insertTag = function(tagID, itemID){
+        jSQL.insertInArray({ item_id: itemID, category_id: tagID },
+          jDB.item_category
+        );
+      }
+      const updateTags = function(newTags, item){
+        if(newTags.length){ newTags.forEach(function(newTag){
+            insertTag(newTag.id, item.id);
+        });}
       }
     }
   }
