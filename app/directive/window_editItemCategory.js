@@ -3,32 +3,40 @@ function(ngShared, jSQL, jDB){
   return{
     restrict: 'E',
     transclude: true,
+    scope:{},
     templateUrl:'app/template/window_editItemCategory.html',
     link: function(scope, element, attrs){
 
       const oItemWindow = ngShared.openElement[attrs.editObj];
       const oItem = oItemWindow.item;
-      scope.item = Object.assign({}, oItem);
+      const newItem = { name: 'ff', description: 'ff', price: 10 };
 
-      let itemCategories = jSQL.selectFromArray(
-        'item_id', '==', oItem.id,
-        jDB.item_category
-      );
-
+      scope.new = true;
+      let itemCategories = [];
       scope.usedCategories = [];
       scope.unusedCategories = [];
 
-      jDB.categories.forEach(function(category){
-        let used = false;
-        itemCategories.forEach(function(ic){
-          if(ic.category_id == category.id){
-            used = true;
-            scope.usedCategories.push(category);
-          }
-        });
-        if(!used){ scope.unusedCategories.push(category); }
+      if(!oItem){ scope.item = Object.assign({}, newItem); }
+      else{
+        scope.new = false;
+        scope.item = Object.assign({}, oItem);
+        itemCategories = jSQL.selectFromArray( 'item_id', '==', oItem.id, jDB.item_category );
+      }
 
-      });
+
+      const loadCategories = function(){
+        jDB.categories.forEach(function(category){
+          let used = false;
+          itemCategories.forEach(function(ic){
+            if(ic.category_id == category.id){
+              used = true;
+              scope.usedCategories.push(category);
+            }
+          });
+          if(!used){ scope.unusedCategories.push(category); }
+        });
+      }
+      loadCategories();
 
       function remove(arr, item){
         let index = arr.indexOf(item);
@@ -55,16 +63,27 @@ function(ngShared, jSQL, jDB){
       }
 
       scope.text = {
-        top: { name: 'Category' },
+        top: { name: 'Item' },
         button: {
-          insert: 'INSERT CATEGORY',
+          insert: 'INSERT ITEM',
           cancel: 'CANCEL',
-          delete: 'REMOVE CATEGORY',
+          delete: 'REMOVE ITEM',
           save: 'SAVE CHANGES'
         }
       };
 
-
+      scope.insert = function(){
+        let id = jSQL.insertInArray({
+          name: scope.item.name,
+          description: scope.item.description
+        }, jDB.items);
+        scope.usedCategories.forEach(function(category){
+          insertTag(category.id, id);
+        });
+        insertPrice(id, scope.item.price);
+        oItemWindow.close();
+        oItemWindow.callback();
+      }
       scope.save = function(item){
         console.log('saved');
         if(changedText(item)){ updateText(item); }
@@ -79,7 +98,8 @@ function(ngShared, jSQL, jDB){
           }});
           if(removeCategory){ deleteTag(old.category_id, item.id) }
         });
-        updateTags(scope.usedCategories, item)
+        updateTags(scope.usedCategories, item);
+        if(scope.item.price != oItem.price){ insertPrice(scope.item.id, scope.item.price); }
         oItemWindow.close();
         oItemWindow.callback();
       }
@@ -113,6 +133,11 @@ function(ngShared, jSQL, jDB){
         if(newTags.length){ newTags.forEach(function(newTag){
             insertTag(newTag.id, item.id);
         });}
+      }
+      const insertPrice = function(itemID, price){
+        jSQL.insertInArray({ item_id: itemID, price: price },
+          jDB.item_price
+        );
       }
     }
   }

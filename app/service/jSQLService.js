@@ -149,13 +149,14 @@ app.service('jSQL',function($document, $compile){
     // check properties
     let error = false;
     let properties = [];
+    let id = inArray[inArray.length-1].id + 1;
 
     for( let property in inArray[0]){ properties.push(property); }
     if(self.allPropertiesExist(properties, newRow)){
       // build object
       let newObj = {};
       properties.forEach(function(prop){
-        if(prop === 'id'){  newObj[prop] = inArray[inArray.length-1].id + 1; }
+        if(prop === 'id'){  newObj[prop] = id; }
         else{
           if(!newRow[prop]){ newObj[prop] = false; }
           else{ newObj[prop] = newRow[prop]; }
@@ -164,6 +165,7 @@ app.service('jSQL',function($document, $compile){
       inArray.push(newObj);
       console.log('jSQL inserted: ', newRow );
     }
+    return id;
   }
 
   this.allPropertiesExist = function(properties, newArray){

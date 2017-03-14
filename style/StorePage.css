@@ -1,0 +1,137 @@
+html,
+body {
+    height: 100%;
+}
+
+#viewArea{
+  display: block;
+  height: calc(100% - 36px);
+}
+#StorePage{
+  background-color: #EFEFEF;
+  display: block;
+  margin: 0px;
+  height: 100%;
+  position: relative;
+}
+#StorePage h1{
+  height: 50px;
+  margin: 0px;
+}
+/* Left Panel */
+
+#StorePage .leftPanel{
+  width: 250px;
+  background-color: #FFF;
+  float: left;
+  height: calc(100% - 50px);
+
+  position: fixed;
+  z-index: 5;
+}
+#StorePage .leftPanel .listCategories{
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  line-height: 16px;
+  height: 48px;
+  width: 250px;
+  padding: 16px;
+  background-color: #FFF;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #CCC;
+
+}
+#StorePage .leftPanel .listCategories:last-child{
+  /*border-bottom: none;*/
+}
+#StorePage .leftPanel .listCategories:hover{
+  background-color: #7986CB;
+  color: #FFF;
+  cursor: pointer;
+}
+#StorePage .leftPanel  .categoryUsed{
+  box-sizing: border-box;
+  height: 16px;
+  border-radius: 12px;
+  padding: 2px 8px;
+  line-height: 12px;
+  font-size: 12px;
+  border: none;
+  outline: none;
+  background-color: #7986CB;
+  color: #FFF;
+}
+
+/* Right Panel */
+
+#StorePage .rightPanel{
+  width: calc(100% - 250px);
+  float: right;
+}
+#StorePage .rightPanel > div.top{
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  line-height: 16px;
+  font-size: 16px;
+  background-color: #7986CB;
+  border-bottom: #E0E0E0 5px solid;
+  color: #FFF;
+}
+#StorePage .rightPanel > div.top > div.categoryName{
+  height: 16px;
+}
+#StorePage .rightPanel > div.top > div.categoryName > i{
+  margin-left: 8px;
+  color: #9FA8DA;
+}
+#StorePage .rightPanel > div.top > div.categoryName > i:hover{
+  color: #C5CAE9;
+}
+#StorePage .rightPanel > div.top > button.addNewItem{
+  height: 32px;
+  margin: -8px;
+  overflow: hidden;
+  border: none;
+  outline: none;
+    background-color: #7986CB;
+    border: #E8EAF6 1px solid;
+    color: #E8EAF6;
+}
+
+#StorePage .rightPanel .categoriesListed{
+  margin-left: 16px;
+}
+#StorePage .rightPanel div.store.price{
+  display: flex;
+  justify-content: space-between;
+  min-width: 100px;
+  padding: 8px;
+  font-weight: bolder;
+  font-size: 20px;
+  background-color: #F9FBE7;
+  color: #000;
+}
+#StorePage .rightPanel div.store.price > div > i{
+  font-size: 16px;
+  font-weight: 50;
+  color: #000;
+}
+#StorePage .rightPanel button.buy{
+  box-sizing: border-box;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: #9CCC65;
+}
+#StorePage .rightPanel button.buy:hover{
+  background-color: #AED581;
+}
+#StorePage .rightPanel .verticalFlex{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -1,12 +1,13 @@
 <div class="blanket" ng-click="cancel()">
-  <div id="editItemCategory"class="window" ng-click="$event.stopPropagation()">
+  <div id="editItemCategory" class="window shadow" ng-click="$event.stopPropagation()">
     <div class="top">
-     {{text.top.name}} - {{category.name}}
+     {{text.top.name}} - {{item.name}}
       <button class="win close" ng-click="cancel()"><i class="fa fa-times"></i></button>
     </div>
     <div class="content">
       <input class="name" ng-model="item.name"/>
       <textarea class="description" ng-model="item.description">{{item.description}}</textarea>
+      <div class="price"> Set price: <input class="price" ng-model="item.price"/><i class="fa fa-eur"></i></div>
       <div class="categoriesListed">
         <button class="category" ng-repeat="category in usedCategories" ng-click="removeFromUsed(category)">{{category.name}}</button>
         <input class="typeTag" ng-model='typedCategory'>
@@ -18,9 +19,16 @@
       </div>
     </div>
     <div class="control">
-      <button class="cancel" ng-click="cancel()">{{text.button.cancel}}</button>
-      <button class="promote save" ng-click="save(item)">{{text.button.save}}</button>
+      <div ng-if="!new">
+        <button class="cancel" ng-click="cancel()">{{text.button.cancel}}</button>
+        <button class="delete" ng-click="delete(item)">{{text.button.delete}}</button>
+        <button class="promote save" ng-click="save(item)">{{text.button.save}}</button>
+      </div>
+      <div ng-if="new">
+        <button class="cancel" ng-click="cancel()">{{text.button.cancel}}</button>
+        <button class="promote save" ng-click="insert()">{{text.button.insert}}</button>
+      </div>
     </div>
-    <div class="Footer">Footer</div>
+    <!-- <div class="Footer">Footer</div> -->
   </div>
 </div><!-- blanket -->

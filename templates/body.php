@@ -14,5 +14,5 @@
     <a href="cart"><i class="fa fa-shopping-cart"></i> Cart</a>
   </div>
 </div>
-<div ng-view></div>
+<div id="viewArea" ng-view></div>
 </body>

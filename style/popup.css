@@ -14,6 +14,8 @@
   max-width: 750px;
   position: relative;
    margin-top: 50px;
+   border-radius: 8px;
+   overflow: hidden;
 }
 .window button.close{
   font-size: 16px;
@@ -27,6 +29,7 @@
   height: 32px;
   padding: 8px;
   text-align: center;
+  border: none;outline: none;
 }
 .window > .top{
   height: 32px;
@@ -52,7 +55,7 @@
   background-color: #FFF;
   padding: 8px;
 }
-.window > .control > button{
+.window > .control button{
   padding: 8px 16px;
   margin-left: 8px;
   border: none;
@@ -62,25 +65,32 @@
   color: #FFF;
 }
 #editItemCategory{ }
-#editItemCategory input.name{
+.window input{
   font-family: 'Source Sans Pro';
   box-sizing: border-box;
   background-color: #F9FBE7;
   margin-top: 16px;
   border: none;
   outline: none;
-  width: 100%;
-  display: block;
   padding: 8px 8px;
-  font-size: 32px;
+  font-size: 16px;
   font-weight: 100;
 }
-#editItemCategory textarea.description{
+.window input.name{
+  font-size: 32px;
+  width: 100%;
+  display: block;
+}
+.window input.price{
+  display: inline-block;
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+.window textarea.description{
   font-family: 'Source Sans Pro';
   box-sizing: border-box;
   background-color: #F9FBE7;
   margin-top: 16px;
-  margin-bottom: 16px;
   border: none;
   outline: none;
   width: 100%;
@@ -100,7 +110,6 @@
   padding: 8px;
   border-radius: 8px;
   color: #7986CB;
-
 }
 #editItemCategory .categoriesListed .pickTag i{
   font-weight: 100;

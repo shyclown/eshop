@@ -27,8 +27,10 @@ app.controller('storeController',function($scope, $routeParams, Store, jSQL, jDB
     new ngShared.directiveElement(
       'window-edit-category', category ,
       function(editCategory, act){
-        if(act === 'save'){ jSQL.updateInArray(editCategory, 'id', editCategory.id, jDB.categories); }
-        if(act === 'delete'){ jSQL.deleteFromArray('id', editCategory.id, jDB.categories); }
+        if(act === 'save'){
+          console.log(editCategory);
+          jSQL.updateInArray(editCategory, 'id', '==',editCategory.id, jDB.categories); }
+        if(act === 'delete'){ jSQL.deleteFromArray('id','==', editCategory.id, jDB.categories); }
         itemCategories = itemCategoryMerge();
       },
       $scope);
