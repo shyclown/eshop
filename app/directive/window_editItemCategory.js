@@ -80,7 +80,7 @@ function(ngShared, jSQL, jDB){
         scope.usedCategories.forEach(function(category){
           insertTag(category.id, id);
         });
-        insertPrice(id, scope.item.price);
+        insertPrice(id, parseInt(scope.item.price));
         oItemWindow.close();
         oItemWindow.callback();
       }
@@ -99,7 +99,9 @@ function(ngShared, jSQL, jDB){
           if(removeCategory){ deleteTag(old.category_id, item.id) }
         });
         updateTags(scope.usedCategories, item);
-        if(scope.item.price != oItem.price){ insertPrice(scope.item.id, scope.item.price); }
+        if(scope.item.price != oItem.price){
+          insertPrice(scope.item.id, parseInt(scope.item.price));
+        }
         oItemWindow.close();
         oItemWindow.callback();
       }

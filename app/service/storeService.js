@@ -31,6 +31,7 @@ app.service('Store',function($document, $compile, jDB, jSQL){
     if(inCart){ inCart.amt++; self.total = self.total + inCart.item.price;}
     else{
       self.cart.push({ cartID: cartID, itemID: item.id, item: item, amt: 1 });
+      console.log(item.price)
       self.total = self.total + item.price;
       cartID++;
     }
